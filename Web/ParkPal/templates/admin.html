@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <script>
+        // JavaScript để tự động làm mới trang mỗi 3 giây
+        setTimeout(function(){
+           window.location.reload(1);
+        }, 5000);
+    </script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+
+    <!-- Navbar -->
+    <nav class="bg-gray-800 p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <div>
+                <a class="text-white text-xl font-bold">Admin Dashboard</a>
+            </div>
+            <div>
+                <a class="text-white ml-3" href="/">Trang chủ</a>
+                <a class="text-white ml-3" href="/register">Cấp tài khoản</a>
+                {% if 'user' in session %}
+                    <span class="text-white ml-3">{{ session['user'][1] }}</span>
+                {% endif %}
+                <a class="text-white ml-4" href="/logout">Đăng xuất</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mx-auto py-8">
+        <h1 class="text-3xl font-semibold mb-8">Parking Data</h1>
+        
+        <!-- Search form -->
+        <form action="{{ url_for('admin') }}" method="POST" class="mb-4">
+            <div class="flex items-center">
+                <input type="text" name="search" placeholder="Search by car number" class="px-4 py-2 border border-gray-300 rounded-md mr-2">
+                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Search</button>
+            </div>
+        </form>
+        {% if so_luong_xe %}
+            <h2 class="text-2xl font-bold mb-4">Số lượng xe trong hệ thống: {{ so_luong_xe }}</h2>
+        {% endif %}
+        {% if dang_do >= 0 %}
+            <h2 class="text-2xl font-bold mb-4">Số lượng xe đang đỗ: {{ dang_do }} </h2>
+        {% endif %}
+        {% if cho_trong %}
+            <h2 class="text-2xl font-bold mb-4">Số lượng chỗ còn trống: {{ cho_trong }} </h2>
+        {% endif %}
+        <!-- Currently Parked Cars -->
+        <div class="mb-8">
+            <h2 class="text-2xl font-bold mb-4">Xe đang đỗ</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {% for row in currently_parked %}
+                    <div class="bg-white p-4 rounded-lg shadow-md">
+                        <h3 class="text-xl font-semibold mb-2">Car Number: {{ row[2] }}</h3>
+                        <p>Time In: {{ row[3] }}</p>
+                        <!-- Display image_in -->
+                        <img src="{{ url_for('image', parking_id=row[0], image_type='in') }}" alt="Image In" class="mt-2">
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Exited Cars -->
+        <div>
+            <h2 class="text-2xl font-bold mb-4">Xe đã đỗ</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {% for row in exited_parked %}
+                    <div class="bg-white p-4 rounded-lg shadow-md">
+                        <h3 class="text-xl font-semibold mb-2">Car Number: {{ row[2] }}</h3>
+                        <p>Time In: {{ row[3] }}</p>
+                        <p>Time Out: {{ row[4] }}</p>
+                        <!-- Display image_in and image_out -->
+                        <img src="{{ url_for('image', parking_id=row[0], image_type='in') }}" alt="Image In" class="mt-2">
+                        <img src="{{ url_for('image', parking_id=row[0], image_type='out') }}" alt="Image Out" class="mt-2">
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lịch Sử Đỗ Xe</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+
+    <header class="text-black bg-white body-font">
+        <div
+            class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+            <a
+                class="flex title-font font-medium items-center text-black mb-4 md:mb-0"
+                href="/">
+                <img src="static/images/logo.png" height="200" width="200"
+                    style="border-radius: 50%;" />
+            </a>
+            <nav
+                class="md:ml-auto flex flex-wrap items-center text-base justify-center">
+                <a class="mr-5 hover:text-gray-900" href="/gioi-thieu">Giới
+                    thiệu</a>
+                <a class="mr-5 hover:text-gray-900" href="/lien-he">Liên
+                    hệ</a>
+                {% if 'user' in session %}
+                    {% if session['user'][4] == 'admin' %}
+                    <a class="mr-5 hover:text-gray-900" href="/admin">Lịch sử đổ
+                        xe</a>
+                    {% endif %}
+                    {% if session['user'][4] == 'user' %}
+                    <a class="mr-5 hover:text-gray-900" href="/history">Lịch sử ra vào</a>
+                    {% endif %}
+                <span class="mr-5">{{ session['user'][1] }}</span>
+                <a class="mr-5 hover:text-gray-900" href="/logout">Đăng
+                    xuất</a>
+
+                {% else %}
+                <a class="mr-5 hover:text-gray-900" href="/login">Đăng
+                    nhập</a>
+                <a class="mr-5 hover:text-gray-900" href="/register">Đăng
+                    ký</a>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+
+    <!-- Nội dung chính -->
+    <div class="container mx-auto py-8">
+        <h1 class="text-3xl font-semibold mb-8">Lịch Sử Đỗ Xe Của Bạn</h1>
+
+        <!-- Các Xe Đang Đỗ -->
+        <div class="mb-8">
+            <h2 class="text-2xl font-bold mb-4">Xe Đang Đỗ</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {% for row in currently_parked %}
+                    <div class="bg-white p-4 rounded-lg shadow-md">
+                        <h3 class="text-xl font-semibold mb-2">Số Xe: {{ row[2] }}</h3>
+                        <p>Thời Gian Vào: {{ row[3] }}</p>
+                        <!-- Hiển thị hình ảnh khi vào -->
+                        <img src="{{ url_for('image', parking_id=row[0], image_type='in') }}" alt="Hình Ảnh Khi Vào" class="mt-2">
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Các Xe Đã Rời Đi -->
+        <div>
+            <h2 class="text-2xl font-bold mb-4">Xe Đã Đỗ</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {% for row in exited_parked %}
+                    <div class="bg-white p-4 rounded-lg shadow-md">
+                        <h3 class="text-xl font-semibold mb-2">Số Xe: {{ row[2] }}</h3>
+                        <p>Thời Gian Vào: {{ row[3] }}</p>
+                        <p>Thời Gian Rời Đi: {{ row[4] }}</p>
+                        <!-- Hiển thị hình ảnh khi vào và ra -->
+                        <img src="{{ url_for('image', parking_id=row[0], image_type='in') }}" alt="Hình Ảnh Khi Vào" class="mt-2">
+                        <img src="{{ url_for('image', parking_id=row[0], image_type='out') }}" alt="Hình Ảnh Khi Ra" class="mt-2">
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

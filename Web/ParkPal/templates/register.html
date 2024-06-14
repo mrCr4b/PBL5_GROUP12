@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng ký</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100 h-screen flex flex-col justify-center items-center">
+    <div class="bg-white p-8 rounded-lg shadow-md max-w-md w-full">
+        <h2 class="text-3xl font-bold text-center mb-6">Đăng ký</h2>
+        <form method="POST" action="{{ url_for('register') }}" class="space-y-4">
+            {{ form.hidden_tag() }} <!-- Để thêm các trường ẩn cần thiết cho CSRF -->
+            <div>
+                <label for="username" class="block text-sm font-medium text-gray-700">Tên người dùng</label>
+                {{ form.username(class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md px-4 py-2") }}
+            </div>
+            <div>
+                <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                {{ form.email(class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md px-4 py-2") }}
+            </div>
+            <div>
+                <label for="password" class="block text-sm font-medium text-gray-700">Mật khẩu</label>
+                {{ form.password(class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md px-4 py-2") }}
+            </div>
+            <div>
+                <label for="confirm_password" class="block text-sm font-medium text-gray-700">Xác nhận mật khẩu</label>
+                {{ form.confirm_password(class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md px-4 py-2") }}
+            </div>
+            <button type="submit" class="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-300">Đăng ký</button>
+        </form>
+    </div>
+</body>
+
+</html>

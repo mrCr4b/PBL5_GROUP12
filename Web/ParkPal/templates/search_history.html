@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <script src="https://cdn.tailwindcss.com"></script>
+
+        <title>Parkpal</title>
+        <style>
+  body {
+            font-family: Arial, sans-serif;
+            background-color: white; /* Đổi màu nền thành màu trắng */
+            color: black; /* Đổi màu chữ thành màu đen */
+            margin: 0;
+            text-align: center;
+            background-size: cover;
+            background-position: center;
+        }
+    h1 {
+        color: #333;
+        font-size: 3em; /* Increase font size */
+        font-weight: bold; /* Make the text bold */
+        }
+    form {
+        padding: 20px;
+        font-weight: bold;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        margin-top: 20px;
+        display: inline-block;
+    }
+
+    #photo-container {
+        display: flex;
+        flex-wrap: wrap; /* Allow wrapping to next row */
+        justify-content: center; /* Center align items */
+        align-items: center; /* Center align items */
+        overflow-y: auto;
+    }
+    #photo-container img {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        margin: 5px; /* Add margin between images */
+        border-radius: 5px;
+    }
+.note {
+    margin-top: 20px;
+    color: #777;
+    font-style: italic;
+}
+
+
+/* Style the scrollbar track */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        /* Style the scrollbar thumb */
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 6px;
+        }
+
+        /* Hover effect on the scrollbar thumb */
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        /* Style the scrollbar buttons (arrows) */
+        ::-webkit-scrollbar-button {
+            display: none;
+        }
+
+        /* Style the scrollbar corner */
+        ::-webkit-scrollbar-corner {
+            background: #f1f1f1;
+        }
+
+
+</style>
+    </head>
+    <body>
+        <header class="text-black bg-white body-font">
+            <div
+                class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+                <a
+                    class="flex title-font font-medium items-center text-black mb-4 md:mb-0"
+                    href="/">
+                    <img
+                        src="{{ url_for('static', filename='images/logo.png') }}"
+                        height="50" width="50"
+                        style="border-radius: 50%;" />
+                    <span class="ml-3 text-xl">Parkpal</span>
+                </a>
+                <nav
+                    class="md:ml-auto flex flex-wrap items-center text-base justify-center">
+                    <a class="mr-5 hover:text-gray-900" href="/gioi-thieu">Giới
+                        thiệu</a>
+                    <a class="mr-5 hover:text-gray-900" href="/lien-he">Liên hệ</a>
+                    {% if 'user' in session %}
+                    <a class="mr-5 hover:text-gray-900" href="/search_history">Lịch
+                        sử tìm kiếm</a>
+                    <span class="mr-5">{{ session['user'][1] }}</span>
+                    <a class="mr-5 hover:text-gray-900" href="/logout">Đăng xuất</a>
+                    {% else %}
+                    <a class="mr-5 hover:text-gray-900" href="/login">Đăng nhập</a>
+                    <a class="mr-5 hover:text-gray-900" href="/register">Đăng ký</a>
+                    {% endif %}
+                </nav>
+            </div>
+        </header>
+        <div class="bg-gray-100 pt-40 pb-40 flex items-center justify-center">
+            <div class="max-w-md w-full bg-white p-8 rounded shadow-lg">
+                <h1 class="text-2xl font-bold mb-4">Lịch Sử Tìm Kiếm</h1>
+                <ul>
+                    {% for search in search_history %}
+                    <li class="mb-4 border-b border-gray-200 py-2 flex justify-between items-center">
+                        <div>
+                            <span class="font-bold">{{ loop.index }}. {{ search[2] }}</span>
+                            <span class="text-gray-600 text-sm ml-2">{{ search[3] }}</span>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        
+        
+        <div id="photo-container"></div>
+
+        <footer class="text-black bg-white body-font">
+            <div
+                class="container px-5 py-24 mx-auto flex md:items-center lg:items-start md:flex-row md:flex-nowrap flex-wrap flex-col">
+                <div
+                    class="flex-grow flex flex-wrap md:pr-20 -mb-10 md:text-left text-center order-first">
+                    <div class="lg:w-1/4 md:w-1/2 w-full px-4">
+                        <h1
+                            class="title-font font-medium text-black tracking-widest text-sm mb-3">KHOA
+                            CÔNG NGHỆ THÔNG TIN </h1>
+                    </div>
+                </div>
+                <div
+                    class="w-64 flex-shrink-0 md:mx-0 mx-auto text-center md:text-left md:mt-0 mt-10">
+                    <a
+                        class="flex title-font font-medium items-center md:justify-end justify-center text-black">
+                        <img
+                            src="{{url_for('static', filename='images/logo-van-lang.png')}}"
+                            height="70" width="70"
+                            style="border: 70%;" />
+                        <span class="ml-3 text-l">TRƯỜNG ĐẠI HỌC VĂN LANG</span>
+                    </a>
+                </div>
+            </div>
+            <div class="bg-gray-800 bg-opacity-75">
+                <div
+                    class="container mx-auto py-4 px-5 flex flex-wrap flex justify-center flex-col ">
+                    <p class="text-white text-sm text-center">
+                        © 2024 Parkpal —
+                        <a href="#" class="text-white ml-1"
+                            rel="noopener noreferrer" target="_blank">@Parkpal</a>
+                    </p>
+                    <h4 class="text-white text-sm">Trường Đại học Văn Lang</h4>
+                    <p class="text-white text-sm"><b>Cơ sở 1:</b> 45 Nguyễn Khắc
+                        Nhu, Phường Cô Giang, Quận 1, Thành phố Hồ Chí Minh</p>
+                    <p class="text-white text-sm"><b>Cơ sở 2:</b> 233A Phan Văn
+                        Trị, Phường 11, Quận Bình Thạnh, Thành phố Hồ Chí Minh</p>
+                    <p class="text-white text-sm"><b>Cơ sở 3:</b> 9/68 Đặng Thuỳ
+                        Trâm, Phường 13, Quận Bình Thạnh, Thành phố Hồ Chí Minh</p>
+                    <p class="text-white text-sm">Trần Thị Thanh Thảo -
+                        207CT58591</p>
+                    <p class="text-white text-sm">Giảng viên hướng dẫn: Trần Kim
+                        Mỹ Vân</p>
+                </div>
+            </div>
+
+        </footer>
+
+    </body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cập nhật thông tin chi tiết tài khoản</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto py-8">
+        <h1 class="text-3xl font-semibold text-center mb-8">Cập nhật thông tin chi tiết tài khoản</h1>
+        <div class="flex justify-center">
+            <div class="w-full max-w-lg bg-white p-8 rounded-lg shadow-md">
+                <form method="POST" action="/update_account_detail">
+                    {{ form.csrf_token }}
+                    <div class="mb-4">
+                        <label for="card_number" class="block text-gray-700 text-sm font-bold mb-2">Số thẻ:</label>
+                        {{ form.card_number(class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline") }}
+                    </div>
+                    <div class="mb-4">
+                        <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Tên:</label>
+                        {{ form.name(class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline") }}
+                    </div>
+                    <div class="mb-4">
+                        <label for="birthday" class="block text-gray-700 text-sm font-bold mb-2">Ngày sinh:</label>
+                        {{ form.birthday(class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline") }}
+                    </div>
+                    <div class="mb-4">
+                        <label for="cccd" class="block text-gray-700 text-sm font-bold mb-2">CCCD:</label>
+                        {{ form.cccd(class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline") }}
+                    </div>
+                    <div class="mb-4">
+                        <label for="start_day" class="block text-gray-700 text-sm font-bold mb-2">Ngày bắt đầu:</label>
+                        {{ form.start_day(class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline") }}
+                    </div>
+                    <div class="mb-4">
+                        <label for="end_day" class="block text-gray-700 text-sm font-bold mb-2">Ngày kết thúc:</label>
+                        {{ form.end_day(class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline") }}
+                    </div>
+                    <div class="flex justify-center">
+                        {{ form.submit(class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Giới Thiệu</title>
+        <link
+            href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+            rel="stylesheet">
+    </head>
+
+    <body class="bg-gray-100">
+        <header class="text-black bg-white body-font">
+            <div
+                class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+                <a
+                    class="flex title-font font-medium items-center text-black mb-4 md:mb-0"
+                    href="/">
+                    <img
+                        src="{{ url_for('static', filename='images/logo.png') }}"
+                        height="50" width="50"
+                        style="border-radius: 50%;" />
+                    <span class="ml-3 text-xl">Parkpal</span>
+                </a>
+                <nav
+                    class="md:ml-auto flex flex-wrap items-center text-base justify-center">
+                    <a class="mr-5 hover:text-gray-900" href="/gioi-thieu">Giới
+                        thiệu</a>
+                    <a class="mr-5 hover:text-gray-900" href="/lien-he">Liên
+                        hệ</a>
+                    {% if 'user' in session %}
+                    <a class="mr-5 hover:text-gray-900"
+                        href="/search_history">Lịch
+                        sử ra vào</a>
+                    <span class="mr-5">{{ session['user'][1] }}</span>
+                    <a class="mr-5 hover:text-gray-900" href="/logout">Đăng
+                        xuất</a>
+                    {% else %}
+                    <a class="mr-5 hover:text-gray-900" href="/login">Đăng
+                        nhập</a>
+                    <a class="mr-5 hover:text-gray-900" href="/register">Đăng
+                        ký</a>
+                    {% endif %}
+                </nav>
+            </div>
+        </header>
+
+        <section class="text-gray-600 body-font">
+            <div
+                class="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
+                <div
+                    class="lg:flex-grow md:w-1/2 lg:pl-24 md:pl-16 flex flex-col md:items-start md:text-left items-center">
+                    <h1
+                        class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">Giới
+                        Thiệu về Bãi Giữ Xe</h1>
+                    <p class="mb-8 leading-relaxed">ParkingPal là một hệ thống
+                        quản lý bãi giữ xe sử dụng công nghệ tiên tiến để giúp
+                        người dùng tìm kiếm và quản lý chỗ đậu xe một cách hiệu
+                        quả và thuận tiện.
+                        <br>
+                        Các tính năng chính của ParkingPal bao gồm:
+                        <br>1. Tìm kiếm chỗ đậu xe dựa trên vị trí hoặc tên bãi
+                        giữ xe.
+                        <br>2. Đặt chỗ đậu trước và thanh toán trực tuyến.
+                        <br>3. Thông tin về số lượng chỗ đậu trống và giá cả cập
+                        nhật thời gian thực.
+                        <br>
+                        Chúng tôi cam kết cung cấp dịch vụ bãi giữ xe chất lượng
+                        cao và liên tục cải thiện hệ thống để đáp ứng nhu cầu
+                        của người dùng. Đồng thời, chúng tôi luôn hoan nghênh ý
+                        kiến đóng góp và phản hồi từ phía người dùng để nâng cao
+                        chất lượng dịch vụ.
+                        <br><br>
+                        ParkingPal được phát triển bởi đội ngũ kỹ sư tài năng
+                        dưới sự hỗ trợ của các chuyên gia hàng đầu về công nghệ
+                        và quản lý bãi giữ xe.
+                    </p>
+                    <div class="flex justify-center">
+                        <a href="/"
+                            class="inline-flex text-white bg-green-500 border-0 py-2 px-6 focus:outline-none hover:bg-green-600 rounded text-lg">Trở
+                            về trang chủ</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </body>
+
+</html>

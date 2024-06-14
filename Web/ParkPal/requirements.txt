@@ -1,0 +1,6 @@
+Flask
+Flask-MySQLdb
+Flask-WTF
+Flask-Bcrypt
+email_validator
+requests

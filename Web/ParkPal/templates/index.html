@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parkpal - Tài khoản</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-900">
+    <header class="text-black bg-white body-font">
+        <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+            <a class="flex title-font font-medium items-center text-black mb-4 md:mb-0" href="/">
+                <img src="static/images/logo.png" height="200" width="200" style="border-radius: 50%;" />
+            </a>
+            <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
+                <a class="mr-5 hover:text-gray-900" href="/gioi-thieu">Giới thiệu</a>
+                <a class="mr-5 hover:text-gray-900" href="/lien-he">Liên hệ</a>
+                {% if 'user' in session %}
+                    {% if session['user'][4] == 'admin' %}
+                        <a class="mr-5 hover:text-gray-900" href="/admin">Lịch sử đỗ xe</a>
+                    {% endif %}
+                    {% if session['user'][4] == 'user' %}
+                        <a class="mr-5 hover:text-gray-900" href="/history">Lịch sử ra vào</a>
+                    {% endif %}
+                    <span class="mr-5">{{ session['user'][1] }}</span>
+                    <a class="mr-5 hover:text-gray-900" href="/logout">Đăng xuất</a>
+                {% else %}
+                    <a class="mr-5 hover:text-gray-900" href="/login">Đăng nhập</a>
+                    <a class="mr-5 hover:text-gray-900" href="/register">Đăng ký</a>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+
+    <div class="container mx-auto py-8">
+        <div class="flex justify-center">
+            <div class="w-full max-w-2xl bg-white p-8 rounded-lg shadow-md">
+                <!-- Thông tin tài khoản -->
+                <h1 class="text-3xl font-semibold text-center mb-8">Thông tin tài khoản</h1>
+                <ul class="list-disc list-inside mb-8">
+                    <li><strong>Tên:</strong> {{ session['user'][1] }}</li>
+                    <li><strong>Email:</strong> {{ session['user'][2] }}</li>
+                </ul>
+
+                <!-- Hiển thị thông tin chi tiết -->
+                {% if 'user_detail' in session %}
+                <div class="mb-8">
+                    <h2 class="text-xl font-semibold">Thông tin chi tiết:</h2>
+                    <ul class="list-disc list-inside">
+                        <li><strong>Tên:</strong> {{ session['user_detail'][2] }}</li>
+                        <li><strong>Ngày sinh:</strong> {{ session['user_detail'][3] }}</li>
+                        <li><strong>CCCD:</strong> {{ session['user_detail'][4] }}</li>
+                        <li><strong>Ngày bắt đầu:</strong> {{ session['user_detail'][5] }}</li>
+                        <li><strong>Ngày kết thúc:</strong> {{ session['user_detail'][6] }}</li>
+                    </ul>
+                </div>
+                {% endif %}
+
+                <!-- Danh sách biển số xe -->
+                <div class="mb-8">
+                    <h2 class="text-xl font-semibold">Danh sách biển số xe:</h2>
+                    <form id="car-plates-form" method="POST" action="/update_car_plates">
+                        <div id="car-plates-container" class="mb-4">
+                            {% for plate in car_plates %}
+                            <div class="mb-2 flex items-center">
+                                <input type="text" name="car_plates[]" value="{{ plate[0] }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                <button type="button" class="ml-2 bg-red-500 text-white rounded px-2 py-1 remove-plate">Xóa</button>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <button type="button" id="add-plate" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Thêm biển số</button>
+                        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Cập nhật</button>
+                    </form>
+                </div>
+
+                <!-- Form cập nhật thông tin tài khoản -->
+                <h1 class="text-3xl font-semibold text-center mb-8">Cập nhật thông tin tài khoản</h1>
+                <form method="POST" action="/update_account_detail">
+                    <div class="mb-4">
+                        <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Tên:</label>
+                        <input type="text" id="name" name="name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="{{ session['user_detail'][2] }}" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="birthday" class="block text-gray-700 text-sm font-bold mb-2">Ngày sinh:</label>
+                        <input type="date" id="birthday" name="birthday" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="{{ session['user_detail'][3] }}" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="cccd" class="block text-gray-700 text-sm font-bold mb-2">CCCD:</label>
+                        <input type="text" id="cccd" name="cccd" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="{{ session['user_detail'][4] }}" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="start_day" class="block text-gray-700 text-sm font-bold mb-2">Ngày bắt đầu:</label>
+                        <input type="date" id="start_day" name="start_day" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="{{ session['user_detail'][5] }}" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="end_day" class="block text-gray-700 text-sm font-bold mb-2">Ngày kết thúc:</label>
+                        <input type="date" id="end_day" name="end_day" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="{{ session['user_detail'][6] }}" required>
+                    </div>
+                    <div class="flex justify-center">
+                        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Cập nhật</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('add-plate').addEventListener('click', function() {
+            const container = document.getElementById('car-plates-container');
+            const div = document.createElement('div');
+            div.classList.add('mb-2', 'flex', 'items-center');
+            div.innerHTML = `
+                <input type="text" name="car_plates[]" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Nhập biển số xe">
+                <button type="button" class="ml-2 bg-red-500 text-white rounded px-2 py-1 remove-plate">Xóa</button>
+            `;
+            container.appendChild(div);
+
+            div.querySelector('.remove-plate').addEventListener('click', function() {
+                div.remove();
+            });
+        });
+
+        document.querySelectorAll('.remove-plate').forEach(function(button) {
+            button.addEventListener('click', function() {
+                button.parentElement.remove();
+            });
+        });
+    </script>
+</body>
+</html>
