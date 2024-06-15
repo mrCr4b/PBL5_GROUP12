@@ -1,5 +1,5 @@
-train: /relative to 'path'/train/  # train images (relative to 'path')
-val: /relative to 'path'/val/ # val images (relative to 'path')
+train: ../Letters_detection/images/train  # train images (relative to 'path')
+val: ../Letters_detection/images/val # val images (relative to 'path')
 
 
 # Classes

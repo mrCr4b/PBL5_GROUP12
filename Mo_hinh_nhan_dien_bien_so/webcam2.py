@@ -14,9 +14,7 @@ from flask import Flask, render_template
 import serial
 import requests
 
-#BASE = "http://127.0.0.1:5000/"
 BASE = "http://192.168.63.40:5003/"
-
 
 yolo_LP_detect = torch.hub.load('cam_ra', 'custom', path='model/license_plate.pt', force_reload=True, source='local')
 yolo_license_plate = torch.hub.load('cam_ra', 'custom', path='model/letters.pt', force_reload=True, source='local')
@@ -38,21 +36,22 @@ while True:
         h = int(plate[3] - plate[1]) # ymax - ymin
         cv2.rectangle(frame, (int(x), int(y)), (int(x) + int(w), int(y) + int(h)), color = (0,0,225), thickness = 2)
         crop_img = frame[y:y+h, x:x+w]
-        lp = {}
+        lp = ""
         for cc in range(0, 2):
             for ct in range(0, 2):
                 lp, confidence = helper.read_plate(yolo_license_plate, utils_rotate.deskew(crop_img, cc, ct))
                 if lp != "unknown":
                     confidence = round(confidence * 100,1)
-                    cv2.imwrite("result/img1.jpg", crop_img)
+                    cv2.imwrite("result/img2.jpg", crop_img)
                     with open('result/img2.jpg', 'rb') as file:
                         image_data = file.read()
+
                     print(lp, confidence)
+
                     # DÀNH CHO CAM RA
                     payload = {
                         'bien_so': lp
                     }
-                    #files = {'image': hinh_anh}
                     files = {'image': ('img2.jpg', image_data, 'image/jpeg')}
             
                     response = requests.post(BASE + "camra", data=payload, files=files)
